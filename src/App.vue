@@ -1,14 +1,14 @@
 <template>
 
-<Modal :room='room' :itemNumber = 'itemNumber' modal_open = 'modal_open'/>
+    <Modal @closeModal="modal_open = false;" :room="room" :itemNumber="itemNumber" :modal_open="modal_open"/>
 
-<div class="menu">
-  <a v-for="category in menu" :key="category">{{category}}</a>
-</div>
+    <div class="menu">
+      <a v-for="category in menu" :key="category">{{category}}</a>
+    </div>
 
-<Discount/>
+    <Discount/>
 
-    <Card :room = 'room[i]' v-for ="(item, i) in room" :key="item"/>
+    <Card @openModal="modal_open = true; itemNumber=$event"  :room="room[i]" v-for="(item, i) in room" :key="item"/>
 
 </template>
 
@@ -27,11 +27,7 @@ export default {
       room : roomData,
       itemNumber : 0,
       menu : ['Home','Shop', 'About'],
-      products : ['역삼동원룸','천호동원룸','마포구원룸'],
-      price : [50, 60, 70],
       modal_open : false,
-      
-
     }
   },
   methods:{
@@ -62,6 +58,24 @@ div {
   box-sizing: border-box;
 }
 
+.black-bg {
+  width: 100%; height:100%;
+  background: rgba(0,0,0,0.5);
+  position: fixed; padding: 20px;
+}
+.white-bg {
+  transform: translate(50%, 20%);
+  width: 50%; 
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+} 
+
+.white-bg img{
+  width: 80%;
+  height:80%;
+}
+
 .menu {
   background : darkslateblue;
   padding : 15px;
@@ -75,6 +89,12 @@ div {
 .item{
   margin-bottom: 20px;
   margin-top: 20px;
+}
+
+.discount{
+  background: #eee;
+  padding: 10px;
+  margin: 10px;
 }
 
 img{
