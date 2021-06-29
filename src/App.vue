@@ -8,13 +8,7 @@
 
 <Discount/>
 
-  <div class='item_container' v-for='(a, i) in room' :key="i" >
-    <div class='item' >
-      <img @click = "modal_open = true; itemNumber = i" :src='a.image' class='thumbnail' alt='썸네일'>
-      <h4 @click = "modal_open = true; itemNumber = i">{{a.title}}</h4>
-      <p>{{a.price}}</p>
-    </div>
-  </div>
+    <Card :room = 'room[i]' v-for ="(item, i) in room" :key="item"/>
 
 </template>
 
@@ -23,6 +17,7 @@
 import roomData from './assets/oneroom.js';
 import Discount from './components/Discount.vue';
 import Modal from './components/Modal.vue';
+import Card from './components/Card.vue';
 
 
 export default {
@@ -45,6 +40,7 @@ export default {
   components: {
     Discount : Discount,
     Modal : Modal,
+    Card : Card,
   }
 }
 

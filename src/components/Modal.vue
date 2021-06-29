@@ -1,14 +1,15 @@
 <template>
-    <div class="black-bg" v-if="modal_open == true">
+    <!-- <div class="black-bg" v-if="modal_open == true">
         <div class="white-bg">
           <h4>{{room[itemNumber].title}}</h4>
           <img :src='room[itemNumber].image' class='thumbnail' alt='썸네일'>
           <p>{{room[itemNumber].price}}</p>
           <p>{{room[itemNumber].content}}</p>
           <Discount/>
-          <!-- <button @click='modal_open =false'>닫기</button> -->
+          <button @click='modal_open =false'>닫기</button>
         </div>
-      </div>
+      </div> -->
+      <div></div>
 </template>
 
 <script>
