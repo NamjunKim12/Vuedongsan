@@ -1,6 +1,10 @@
 <template>
-
-    <Modal @closeModal="modal_open = false;" :room="room" :itemNumber="itemNumber" :modal_open="modal_open"/>
+  <transition name='fade'>
+    <Modal @closeModal="modal_open = false;" 
+    :room="room" 
+    :itemNumber="itemNumber" 
+    :modal_open="modal_open"/>
+  </transition>
 
     <div class="menu">
       <a v-for="category in menu" :key="category">{{category}}</a>
@@ -56,6 +60,30 @@ body {
 }
 div {
   box-sizing: border-box;
+}
+
+.fade-enter-from {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: all 1s;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-leave-from {
+ transform:translateY(-1000px);
+}
+
+.fade-leave-active {
+  transition: all 1s;
+}
+
+.fade-leave-to {
+ transform:translateY(0px);
 }
 
 .black-bg {
