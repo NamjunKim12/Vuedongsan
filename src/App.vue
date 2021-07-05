@@ -1,16 +1,22 @@
 <template>
-  <transition name='fade'>
-    <Modal @closeModal="modal_open = false;" 
-    :room="room" 
-    :itemNumber="itemNumber" 
-    :modal_open="modal_open"/>
+  <transition name="fade">
+      <Modal @closeModal="modal_open = false;" 
+      :room="room" 
+      :itemNumber="itemNumber" 
+      :modal_open="modal_open"/>
   </transition>
 
     <div class="menu">
       <a v-for="category in menu" :key="category">{{category}}</a>
     </div>
 
-    <Discount/>
+    <Discount :amount="amount" v-if="showDiscount == true"/>
+
+    <button @click="priceSort()"> 가격오름차순정렬 </button>
+    <button @click="priceSortReverse()"> 가격내림차순정렬 </button>
+    <button @click="nameSort()"> 이름오름차순정렬 </button>
+    <button @click="nameSortReverse()"> 이름내림차순정렬 </button>
+    <button @click="sortBack()"> 되돌리기 </button>
 
     <Card @openModal="modal_open = true; itemNumber=$event"  :room="room[i]" v-for="(item, i) in room" :key="item"/>
 
@@ -24,19 +30,81 @@ import Modal from './components/Modal.vue';
 import Card from './components/Card.vue';
 
 
+
+
 export default {
   name: 'App',
   data(){
     return{
+      showDiscount : true, 
+      roomOrigin : [...roomData],
       room : roomData,
       itemNumber : 0,
       menu : ['Home','Shop', 'About'],
       modal_open : false,
+      amount: 30,
+
     }
   },
   methods:{
+    priceSort(){
+      this.room.sort(
+        function(a,b){
+          return a.price - b.price
+        })
+    },
+    priceSortReverse(){
+      this.room.sort(
+        function(a,b){
+          return b.price - a.price
+        })
+    },
+    
+    sortBack(){
+      this.room = [...this.roomOrigin];
+    },
+
+    nameSort(){
+      this.room.sort(
+        function(a, b){
+          if (a.title < b.title){
+            return -1 
+          } else {
+            return 1
+          }
+        }
+      )
+    },
+    nameSortReverse(){
+      this.room.sort(
+        function(a,b){
+          if( a.title < b.title ){
+            return 1
+          } else {
+            return -1
+          }
+        }
+      )
+    },
 
 },
+
+  mounted(){
+    var timer = setInterval(()=>{
+      this.amount--;
+          if (this.amount === 0){
+      clearInterval(timer)
+      this.showDiscount = false;
+    }
+    },1000);
+  },
+
+  beforeUpdate(){
+    if (this.month == 2){
+      alert('2개월은 너무 적음.. 안팝니다')
+    }
+ },
+
   components: {
     Discount : Discount,
     Modal : Modal,
@@ -62,6 +130,18 @@ div {
   box-sizing: border-box;
 }
 
+.fade-leave-from {
+  opacity: 1;
+}
+
+.fade-leave-active {
+  transition: all 1s;
+}
+
+.fade-leave-to {
+  opacity: 0;
+}
+
 .fade-enter-from {
   opacity: 0;
 }
@@ -74,17 +154,6 @@ div {
   opacity: 1;
 }
 
-.fade-leave-from {
- transform:translateY(-1000px);
-}
-
-.fade-leave-active {
-  transition: all 1s;
-}
-
-.fade-leave-to {
- transform:translateY(0px);
-}
 
 .black-bg {
   width: 100%; height:100%;
@@ -123,6 +192,7 @@ div {
   background: #eee;
   padding: 10px;
   margin: 10px;
+
 }
 
 img{
